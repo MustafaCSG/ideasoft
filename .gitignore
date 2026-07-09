@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
+.env.*
+
+# Flask / Local dev
+*.log
+flask_session/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Scratch / test files
+scratch/
+deneme*.py
+test_*.py
+certstream_poc.py
+
+# NOTE: ideahunter.db IS tracked in git intentionally.
+# The GitHub Actions bot commits it back after each run
+# so new leads accumulate between nightly scans.
+# DO NOT add ideahunter.db to this file.

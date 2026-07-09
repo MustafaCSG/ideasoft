@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdeaHunter - E-Ticaret Arama & Lead Paneli</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS File -->
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Header Bar -->
+        <header class="mobile-header">
+            <div class="brand-logo">
+                <i class="fa-solid fa-crosshairs logo-icon"></i>
+                <span class="brand-text">Idea<span>Hunter</span></span>
+            </div>
+            <button class="btn-burger" id="btn-toggle-sidebar" aria-label="Menüyü Aç">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar" id="app-sidebar">
+            <div class="brand-logo">
+                <i class="fa-solid fa-crosshairs logo-icon"></i>
+                <span class="brand-text">Idea<span>Hunter</span></span>
+                <button class="btn-close-sidebar" id="btn-close-sidebar" aria-label="Menüyü Kapat">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Arama Listesi</span>
+                </a>
+                <a href="https://github.com" target="_blank" class="menu-item">
+                    <i class="fa-brands fa-github"></i>
+                    <span>GitHub Deposu</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="version-tag">v2.1.0</div>
+                <div class="creator-tag">Antigravity ile tasarlandı</div>
+            </div>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="page-title">
+                    <h1>Müşteri Arama Paneli</h1>
+                    <p>IdeaSoft altyapısı keşfedilen e-ticaret siteleri ve cold call yönetimi</p>
+                </div>
+                
+                <div class="navbar-actions">
+                    <button class="btn btn-primary" id="btn-refresh-leads">
+                        <i class="fa-solid fa-arrows-rotate"></i> Listeyi Yenile
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Statistics Cards -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-blue">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3>Toplam Potansiyel</h3>
+                        <div class="stat-value" id="stat-total-leads">0</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-amber">
+                        <i class="fa-solid fa-hammer"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3>Bakır (Boş) Mağazalar</h3>
+                        <div class="stat-value" id="stat-bakir-leads">0</div>
+                        <p class="stat-sub">En yüksek öncelikli adaylar</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-green">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3>Aranan Müşteriler</h3>
+                        <div class="stat-value" id="stat-called-leads">0</div>
+                        <p class="stat-sub" id="stat-called-percent">Arama oranı: %0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-purple">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3>Olumlu / Satış</h3>
+                        <div class="stat-value" id="stat-success-leads">0</div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Filter & Table Controls -->
+            <section class="table-controls-card">
+                <div class="controls-header">
+                    <!-- Search Bar -->
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="lead-search" placeholder="Domain, şirket adı, e-posta veya telefon numarası ara...">
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="filter-group">
+                        <div class="filter-item">
+                            <label>Tasarım Durumu:</label>
+                            <select id="filter-design">
+                                <option value="ALL">Hepsi</option>
+                                <option value="BAKIR">Bakır (Yapım Aşamasında)</option>
+                                <option value="AKTIF">Aktif / Tasarlanmış</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-item">
+                            <label>Arama Durumu:</label>
+                            <select id="filter-status">
+                                <option value="ALL">Hepsi</option>
+                                <option value="YENI">Yeni Yakalananlar</option>
+                                <option value="ARANACAK">Aranacaklar</option>
+                                <option value="ULASILAMADI">Ulaşılamadı / Meşgul</option>
+                                <option value="TEKLIF_BEKLIYOR">Teklif Bekliyor</option>
+                                <option value="OLUMLU">Olumlu (Satış)</option>
+                                <option value="OLUMSUZ">Olumsuz</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Leads spreadsheet-like table -->
+                <div class="table-wrapper">
+                    <table class="leads-table" id="leads-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 22%">Alan Adı (Domain)</th>
+                                <th style="width: 15%">Şirket Ünvanı</th>
+                                <th style="width: 14%">Kayıt Tarihi</th>
+                                <th style="width: 13%">Tasarım Durumu</th>
+                                <th style="width: 12%">Arama Durumu</th>
+                                <th style="width: 14%">İletişim Kanalları</th>
+                                <th style="width: 10%">Aksiyon</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leads-table-body">
+                            <!-- Rows will be injected here dynamically by Javascript -->
+                            <tr>
+                                <td colspan="7" class="table-loading">
+                                    <i class="fa-solid fa-spinner fa-spin"></i> Veriler yükleniyor...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Table Footer/Pagination -->
+                <div class="table-footer">
+                    <div class="footer-info" id="table-info-text">
+                        Gösterilen kayıt: 0 / 0
+                    </div>
+                    <div class="pagination-controls" id="pagination-controls">
+                        <!-- Pagination buttons -->
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Lead Detail Side Panel (Drawer) -->
+        <aside class="detail-drawer" id="detail-drawer">
+            <div class="drawer-header">
+                <h2>Müşteri Detay Kartı</h2>
+                <button class="btn-close-drawer" id="btn-close-drawer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="drawer-body" id="drawer-body-content">
+                <!-- Details will be dynamically rendered here -->
+            </div>
+        </aside>
+        
+        <!-- Drawer Overlay -->
+        <div class="drawer-overlay" id="drawer-overlay"></div>
+    </div>
+    
+    <!-- JS File -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

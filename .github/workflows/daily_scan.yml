@@ -1,0 +1,104 @@
+name: Daily Lead Scan & Scrape
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  scan-and-scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      new_leads: ${{ steps.count.outputs.new_leads }}
+      total_leads: ${{ steps.count.outputs.total_leads }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dnspython aiohttp beautifulsoup4 requests
+
+      - name: Count leads BEFORE scan
+        id: before
+        run: |
+          COUNT=$(python -c "import json, os; f='docs/leads.json'; print(len(json.load(open(f))) if os.path.exists(f) else 0)" 2>/dev/null || echo 0)
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Run Scanners
+        run: |
+          # 1. DNS & Direct Checks (Runs every day, no search engine query limits)
+          python bulk_discovery.py --all || true
+          python ideahunter.py --hunt || true
+          
+          # 2. Search Engine Crawlers (Rotated daily to prevent IP rate-limiting & blocks)
+          DAY_OF_WEEK=$(date +%u)
+          if [ $((DAY_OF_WEEK % 2)) -eq 0 ]; then
+            echo "[+] Bugun cift gun (Sali, Persembe, Cumartesi). Istanbul tarayicisi calistiriliyor..."
+            python ideahunter.py --osm-istanbul || true
+          else
+            echo "[+] Bugun tek gun (Pazartesi, Carsamba, Cuma, Pazar). Genel Footprint ve Kayseri tarayicilari calistiriliyor..."
+            python ideahunter.py --footprint || true
+            python ideahunter.py --osm-kayseri || true
+          fi
+
+      - name: Count leads AFTER scan
+        id: count
+        run: |
+          BEFORE=${{ steps.before.outputs.count }}
+          TOTAL=$(python -c "import json, os; f='docs/leads.json'; print(len(json.load(open(f))) if os.path.exists(f) else 0)" 2>/dev/null || echo 0)
+          NEW=$((TOTAL - BEFORE))
+          [ $NEW -lt 0 ] && NEW=0
+          echo "new_leads=$NEW" >> $GITHUB_OUTPUT
+          echo "total_leads=$TOTAL" >> $GITHUB_OUTPUT
+
+      - name: Commit and push updated leads
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add ideahunter.db docs/leads.json || true
+          if ! git diff --cached --quiet; then
+            git commit -m "🤖 Günlük güncelleme: +${{ steps.count.outputs.new_leads }} yeni lead"
+            git push
+          fi
+
+  notify-telegram:
+    runs-on: ubuntu-latest
+    needs: scan-and-scrape
+    if: always()
+    steps:
+      - name: Send Telegram daily report
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          TEXT="📊 *IdeaHunter Günlük Rapor*%0A%0A🏪 Yeni Mağaza : ${{ needs.scan-and-scrape.outputs.new_leads }}%0A📦 Toplam Lead : ${{ needs.scan-and-scrape.outputs.total_leads }}%0A%0A🔗 [CRM Paneline Git](https://mustafacsg.github.io/ideasoft/)"
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${CHAT_ID}" \
+            -d parse_mode="Markdown" \
+            -d text="${TEXT}"
+
+  deploy-pages:
+    runs-on: ubuntu-latest
+    needs: scan-and-scrape
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: './docs'
+      - uses: actions/deploy-pages@v4
