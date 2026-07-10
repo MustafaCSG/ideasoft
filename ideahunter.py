@@ -1037,6 +1037,29 @@ async def run_all_sources():
     logger.info("[Tamamlandı] Çoklu kaynak taraması bitti.")
 
 
+class ProgressCounter:
+    def __init__(self, total):
+        self.count = 0
+        self.total = total
+        self.lock = asyncio.Lock()
+
+    async def increment(self):
+        async with self.lock:
+            self.count += 1
+            return self.count
+
+
+async def process_domain_semaphore(semaphore, counter, prefix, session, domain, tags):
+    async with semaphore:
+        try:
+            await process_domain(session, domain, tags=tags)
+        except Exception as e:
+            logger.debug(f"Hata ({domain}): {e}")
+        current = await counter.increment()
+        if current % 50 == 0 or current == counter.total:
+            logger.info(f"[{prefix} Progress] {current}/{counter.total} ({int(current/counter.total*100)}%) domain kontrol edildi.")
+
+
 async def scan_kayseri_osm():
     """
     Queries OpenStreetMap's Overpass API to find all businesses in Kayseri
@@ -1195,14 +1218,12 @@ async def scan_kayseri_osm():
         return
         
     # Process domains and verify IdeaSoft
+    semaphore = asyncio.Semaphore(30)
+    counter = ProgressCounter(len(new_domains))
+    logger.info(f"[OSM Kayseri] {len(new_domains)} domain icin paralel tarama baslatiliyor (Eszamanlilik limiti: 30)...")
     async with aiohttp.ClientSession() as session:
-        for idx, d in enumerate(new_domains):
-            logger.info(f"[OSM Kayseri {idx+1}/{len(new_domains)}] Kontrol ediliyor: {d}")
-            try:
-                await process_domain(session, d, tags="kayseri")
-            except Exception as e:
-                logger.debug(f"Hata ({d}): {e}")
-            await asyncio.sleep(random.uniform(0.5, 1.5))
+        tasks = [process_domain_semaphore(semaphore, counter, "OSM Kayseri", session, d, tags="kayseri") for d in new_domains]
+        await asyncio.gather(*tasks)
 
 
 async def scan_istanbul_osm():
@@ -1368,14 +1389,12 @@ async def scan_istanbul_osm():
         return
         
     # Process domains and verify IdeaSoft (no tags passed as requested)
+    semaphore = asyncio.Semaphore(30)
+    counter = ProgressCounter(len(new_domains))
+    logger.info(f"[OSM İstanbul] {len(new_domains)} domain icin paralel tarama baslatiliyor (Eszamanlilik limiti: 30)...")
     async with aiohttp.ClientSession() as session:
-        for idx, d in enumerate(new_domains):
-            logger.info(f"[OSM İstanbul {idx+1}/{len(new_domains)}] Kontrol ediliyor: {d}")
-            try:
-                await process_domain(session, d, tags="")
-            except Exception as e:
-                logger.debug(f"Hata ({d}): {e}")
-            await asyncio.sleep(random.uniform(0.5, 1.5))
+        tasks = [process_domain_semaphore(semaphore, counter, "OSM Istanbul", session, d, tags="") for d in new_domains]
+        await asyncio.gather(*tasks)
 
 
 def main():
