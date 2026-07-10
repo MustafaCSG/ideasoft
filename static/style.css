@@ -359,6 +359,13 @@ h1, h2, h3, h4, .brand-text {
     border-color: var(--primary);
 }
 
+.filter-item select option,
+.form-select option,
+select option {
+    background-color: var(--bg-card);
+    color: var(--color-text-primary);
+}
+
 /* Spreadsheet Table Styling */
 .table-wrapper {
     overflow-x: auto;
