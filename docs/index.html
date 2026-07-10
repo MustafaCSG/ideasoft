@@ -1,203 +1,257 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IdeaHunter CRM — IdeaSoft Lead Yönetimi</title>
-  <meta name="description" content="IdeaSoft kullanan firmaları bulun, iletişim bilgilerini görün, cold calling süreçlerinizi yönetin." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="style.css?v=2.1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdeaHunter - E-Ticaret Arama & Lead Paneli</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css?v=2.1.0">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="app-container">
-
-    <!-- SIDEBAR -->
-    <aside class="app-sidebar">
-      <div class="brand-logo">
-        <span class="logo-icon"><i class="fa-solid fa-crosshairs"></i></span>
-        <span class="brand-text">Idea<span>Hunter</span></span>
-      </div>
-
-      <nav class="sidebar-menu">
-        <a href="#" class="menu-item active" id="nav-leads">
-          <i class="fa-solid fa-table-list"></i> Lead Listesi
-        </a>
-        <!-- Hiding settings menu item, accessible via developer console 'openSettings()' if needed -->
-        <a href="#" class="menu-item" id="nav-settings" onclick="openSettings()" style="display: none;">
-          <i class="fa-solid fa-gear"></i> GitHub Ayarları
-        </a>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="version-tag">IdeaHunter CRM v2.0</div>
-        <div class="creator-tag">GitHub Pages Edition</div>
-        <div class="save-indicator" id="global-save-indicator"></div>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-      <div class="top-navbar">
-        <div class="page-title">
-          <h1>Lead Yönetimi</h1>
-          <p>IdeaSoft altyapısı kullanan firmaları keşfet ve takip et</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:center;">
-          <button class="btn btn-secondary" id="btn-refresh-leads" title="Listeyi yenile">
-            <i class="fa-solid fa-rotate-right"></i> Yenile
-          </button>
-          <div class="last-updated-badge" id="last-updated-badge"></div>
-        </div>
-      </div>
-
-      <!-- STATS GRID -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon icon-blue"><i class="fa-solid fa-store"></i></div>
-          <div class="stat-data">
-            <h3>Toplam Lead</h3>
-            <div class="stat-value" id="stat-total-leads">—</div>
-            <div class="stat-sub">Keşfedilen mağaza</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon icon-amber"><i class="fa-solid fa-paintbrush-pencil"></i></div>
-          <div class="stat-data">
-            <h3>Bakır (Tasarımsız)</h3>
-            <div class="stat-value" id="stat-bakir-leads">—</div>
-            <div class="stat-sub">Tasarım fırsatı</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon icon-purple"><i class="fa-solid fa-phone-volume"></i></div>
-          <div class="stat-data">
-            <h3>Aranan</h3>
-            <div class="stat-value" id="stat-called-leads">—</div>
-            <div class="stat-sub" id="stat-called-percent">Arama oranı: %0</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon icon-green"><i class="fa-solid fa-circle-check"></i></div>
-          <div class="stat-data">
-            <h3>Olumlu</h3>
-            <div class="stat-value" id="stat-success-leads">—</div>
-            <div class="stat-sub">Başarılı satış</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TABLE CARD -->
-      <div class="table-controls-card">
-        <div class="controls-header">
-          <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="lead-search" placeholder="Domain, firma adı, telefon, e-posta ara..." autocomplete="off" />
-          </div>
-          <div class="filter-group">
-            <div class="filter-item">
-              <label>Tasarım:</label>
-              <select id="filter-design">
-                <option value="ALL">Tümü</option>
-                <option value="BAKIR">Bakır (Boş)</option>
-                <option value="AKTIF">Aktif</option>
-              </select>
+    <div class="app-container">
+        <!-- Mobile Header Bar -->
+        <header class="mobile-header">
+            <div class="brand-logo">
+                <i class="fa-solid fa-crosshairs logo-icon"></i>
+                <span class="brand-text">Idea<span>Hunter</span></span>
             </div>
-            <div class="filter-item">
-              <label>Durum:</label>
-              <select id="filter-status">
-                <option value="ALL">Tümü</option>
-                <option value="YENI">Yeni</option>
-                <option value="ARANACAK">Aranacak</option>
-                <option value="ULASILAMADI">Ulaşılamadı</option>
-                <option value="TEKLIF_BEKLIYOR">Teklif Bekliyor</option>
-                <option value="OLUMLU">Olumlu</option>
-                <option value="OLUMSUZ">Olumsuz</option>
-              </select>
+            <button class="btn-burger" id="btn-toggle-sidebar" aria-label="Menüyü Aç">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar" id="app-sidebar">
+            <div class="brand-logo">
+                <i class="fa-solid fa-crosshairs logo-icon"></i>
+                <span class="brand-text">Idea<span>Hunter</span></span>
+                <button class="btn-close-sidebar" id="btn-close-sidebar" aria-label="Menüyü Kapat">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-          </div>
-        </div>
-
-        <div class="table-wrapper">
-          <table class="leads-table">
-            <thead>
-              <tr>
-                <th>Domain / URL</th>
-                <th>Şirket & Yetkili</th>
-                <th>Tasarım</th>
-                <th>CRM Durumu</th>
-                <th>İletişim</th>
-                <th>Detay</th>
-              </tr>
-            </thead>
-            <tbody id="leads-table-body">
-              <tr><td colspan="6" class="table-loading">
-                <i class="fa-solid fa-spinner fa-spin"></i> Yükleniyor...
-              </td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="table-footer">
-          <span class="footer-info" id="table-info-text">Yükleniyor...</span>
-          <div class="pagination-controls" id="pagination-controls"></div>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <!-- DETAIL DRAWER -->
-  <div class="drawer-overlay" id="drawer-overlay"></div>
-  <div class="detail-drawer" id="detail-drawer">
-    <div class="drawer-header">
-      <h2><i class="fa-solid fa-address-card"></i> Lead Detayı</h2>
-      <button class="btn-close-drawer" id="btn-close-drawer"><i class="fa-solid fa-xmark"></i></button>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Arama Listesi</span>
+                </a>
+                <a href="https://github.com" target="_blank" class="menu-item">
+                    <i class="fa-brands fa-github"></i>
+                    <span>GitHub Deposu</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="version-tag">v2.1.0</div>
+                <div class="creator-tag">Antigravity ile tasarlandı</div>
+                <!-- Hidden settings menu item, accessible via developer console 'openSettings()' if needed -->
+                <a href="#" class="menu-item" id="nav-settings" onclick="openSettings()" style="display: none;">
+                    <i class="fa-solid fa-gear"></i> GitHub Ayarları
+                </a>
+                <div class="save-indicator" id="global-save-indicator" style="font-size: 11px; margin-top: 4px;"></div>
+            </div>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="page-title">
+                    <h1>Müşteri Arama Paneli</h1>
+                    <p>IdeaSoft altyapısı keşfedilen e-ticaret siteleri ve cold call yönetimi</p>
+                </div>
+                
+                <div class="navbar-actions">
+                    <button class="btn btn-primary" id="btn-refresh-leads">
+                        <i class="fa-solid fa-arrows-rotate"></i> Listeyi Yenile
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Statistics Cards -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-blue">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3>Toplam Potansiyel</h3>
+                        <div class="stat-value" id="stat-total-leads">0</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-amber">
+                        <i class="fa-solid fa-hammer"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3>Bakır (Boş) Mağazalar</h3>
+                        <div class="stat-value" id="stat-bakir-leads">0</div>
+                        <p class="stat-sub">En yüksek öncelikli adaylar</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-green">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3>Aranan Müşteriler</h3>
+                        <div class="stat-value" id="stat-called-leads">0</div>
+                        <p class="stat-sub" id="stat-called-percent">Arama oranı: %0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-purple">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3>Olumlu / Satış</h3>
+                        <div class="stat-value" id="stat-success-leads">0</div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Filter & Table Controls -->
+            <section class="table-controls-card">
+                <div class="controls-header">
+                    <!-- Search Bar -->
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="lead-search" placeholder="Domain, şirket adı, e-posta veya telefon numarası ara...">
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="filter-group">
+                        <div class="filter-item">
+                            <label>Tasarım Durumu:</label>
+                            <select id="filter-design">
+                                <option value="ALL">Hepsi</option>
+                                <option value="BAKIR">Bakır (Yapım Aşamasında)</option>
+                                <option value="AKTIF">Aktif / Tasarlanmış</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-item">
+                            <label>Arama Durumu:</label>
+                            <select id="filter-status">
+                                <option value="ALL">Hepsi</option>
+                                <option value="YENI">Yeni Yakalananlar</option>
+                                <option value="ARANACAK">Aranacaklar</option>
+                                <option value="ULASILAMADI">Ulaşılamadı / Meşgul</option>
+                                <option value="TEKLIF_BEKLIYOR">Teklif Bekliyor</option>
+                                <option value="OLUMLU">Olumlu (Satış)</option>
+                                <option value="OLUMSUZ">Olumsuz</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Leads spreadsheet-like table -->
+                <div class="table-wrapper">
+                    <table class="leads-table" id="leads-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 22%">Alan Adı (Domain)</th>
+                                <th style="width: 15%">Şirket Ünvanı</th>
+                                <th style="width: 14%">Kayıt Tarihi</th>
+                                <th style="width: 13%">Tasarım Durumu</th>
+                                <th style="width: 12%">Arama Durumu</th>
+                                <th style="width: 14%">İletişim Kanalları</th>
+                                <th style="width: 10%">Aksiyon</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leads-table-body">
+                            <!-- Rows will be injected here dynamically by Javascript -->
+                            <tr>
+                                <td colspan="7" class="table-loading">
+                                    <i class="fa-solid fa-spinner fa-spin"></i> Veriler yükleniyor...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Table Footer/Pagination -->
+                <div class="table-footer">
+                    <div class="footer-info" id="table-info-text">
+                        Gösterilen kayıt: 0 / 0
+                    </div>
+                    <div class="pagination-controls" id="pagination-controls">
+                        <!-- Pagination buttons -->
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Lead Detail Side Panel (Drawer) -->
+        <aside class="detail-drawer" id="detail-drawer">
+            <div class="drawer-header">
+                <h2>Müşteri Detay Kartı</h2>
+                <button class="btn-close-drawer" id="btn-close-drawer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="drawer-body" id="drawer-body-content">
+                <!-- Details will be dynamically rendered here -->
+            </div>
+        </aside>
+        
+        <!-- Drawer Overlay -->
+        <div class="drawer-overlay" id="drawer-overlay"></div>
     </div>
-    <div class="drawer-body" id="drawer-body-content">
-    </div>
-  </div>
+    
+    <!-- JS File -->
+    <script src="app.js?v=2.1.0"></script>
 
-  <!-- SETTINGS MODAL -->
-  <div class="modal-overlay" id="settings-overlay" style="display:none;">
-    <div class="settings-modal">
-      <div class="settings-header">
-        <h2><i class="fa-brands fa-github"></i> GitHub Bağlantısı</h2>
-        <button class="btn-close-drawer" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="settings-body">
-        <p class="settings-desc">
-          CRM notlarınızı ve durumlarınızı otomatik kaydetmek için GitHub bilgilerinizi girin.
-          Token yalnızca tarayıcınızın <code>localStorage</code> belleğinde saklanır, hiçbir sunucuya gönderilmez.
-        </p>
-        <div class="settings-field">
-          <label>GitHub Kullanıcı Adı</label>
-          <input type="text" id="cfg-owner" class="form-input" placeholder="kullanici-adiniz" />
+    <!-- SETTINGS MODAL -->
+    <div class="modal-overlay" id="settings-overlay" style="display:none;">
+        <div class="settings-modal">
+            <div class="settings-header">
+                <h2><i class="fa-brands fa-github"></i> GitHub Bağlantısı</h2>
+                <button class="btn-close-drawer" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="settings-body">
+                <p class="settings-desc">
+                    CRM notlarınızı ve durumlarınızı otomatik kaydetmek için GitHub şifreleme token'ınızı girin.
+                    Token yalnızca tarayıcınızın local belleğinde saklanır.
+                </p>
+                <div class="settings-field" style="display:none;">
+                    <label>GitHub Kullanıcı Adı</label>
+                    <input type="text" id="cfg-owner" class="form-input" value="MustafaCSG" />
+                </div>
+                <div class="settings-field" style="display:none;">
+                    <label>Repo Adı</label>
+                    <input type="text" id="cfg-repo" class="form-input" value="ideasoft" />
+                </div>
+                <div class="settings-field">
+                    <label>Personal Access Token (PAT) <span style="color:var(--color-text-muted);font-size:11px;">— repo scope gerekli</span></label>
+                    <input type="password" id="cfg-token" class="form-input" placeholder="ghp_xxxxxxxxxxxx" />
+                </div>
+                <div class="settings-actions">
+                    <button class="btn btn-primary" onclick="saveSettings()">
+                        <i class="fa-solid fa-floppy-disk"></i> Kaydet
+                    </button>
+                    <button class="btn btn-secondary" onclick="closeSettings()">İptal</button>
+                    <span class="settings-status" id="settings-status"></span>
+                </div>
+                <div class="settings-info">
+                    <i class="fa-solid fa-circle-info"></i>
+                    Token oluşturmak için: GitHub → Settings → Developer Settings → Personal access tokens → Generate new token → <strong>repo</strong> scope seçin.
+                </div>
+            </div>
         </div>
-        <div class="settings-field">
-          <label>Repo Adı</label>
-          <input type="text" id="cfg-repo" class="form-input" placeholder="ideasoft" />
-        </div>
-        <div class="settings-field">
-          <label>Personal Access Token (PAT) <span style="color:var(--color-text-muted);font-size:11px;">— repo scope gerekli</span></label>
-          <input type="password" id="cfg-token" class="form-input" placeholder="ghp_xxxxxxxxxxxx" />
-        </div>
-        <div class="settings-actions">
-          <button class="btn btn-primary" onclick="saveSettings()">
-            <i class="fa-solid fa-floppy-disk"></i> Kaydet
-          </button>
-          <button class="btn btn-secondary" onclick="closeSettings()">İptal</button>
-          <span class="settings-status" id="settings-status"></span>
-        </div>
-        <div class="settings-info">
-          <i class="fa-solid fa-circle-info"></i>
-          Token oluşturmak için: GitHub → Settings → Developer Settings → Personal access tokens → Generate new token → <strong>repo</strong> scope seçin.
-        </div>
-      </div>
     </div>
-  </div>
-
-  <script src="app.js?v=2.1.0"></script>
 </body>
 </html>

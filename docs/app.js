@@ -13,7 +13,7 @@ const GITHUB_FILE_PATH  = 'docs/leads.json'; // path inside repo
 let allLeads    = [];
 let filteredLeads = [];
 let currentPage = 1;
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 12; // Matches itemsPerPage from local server
 
 let saveTimer   = null;
 let fileSha     = null;  // GitHub blob SHA, needed for updates
@@ -30,45 +30,36 @@ function getGHConfig() {
 /* ─── Helpers ────────────────────────────────────────── */
 function el(id) { return document.getElementById(id); }
 
-function designBadge(status) {
-  const s = (status || '').toUpperCase();
-  if (s === 'BAKIR') return '<span class="badge badge-design-bakir"><i class="fa-solid fa-paintbrush-pencil"></i> Bakır</span>';
-  if (s === 'AKTIF') return '<span class="badge badge-design-aktif"><i class="fa-solid fa-check"></i> Aktif</span>';
-  return '<span class="badge badge-design-unknown">—</span>';
-}
-
-function statusBadge(status) {
-  const s = (status || 'YENI').toUpperCase();
-  const map = {
-    'YENI'          : 'yeni',
-    'ARANACAK'      : 'aranacak',
-    'ULASILAMADI'   : 'ulasilamadi',
-    'TEKLIF_BEKLIYOR': 'teklif',
-    'OLUMLU'        : 'olumlu',
-    'OLUMSUZ'       : 'olumsuz',
-  };
-  const cls = map[s] || 'yeni';
-  const labels = {
-    'YENI'           : 'Yeni',
-    'ARANACAK'       : 'Aranacak',
-    'ULASILAMADI'    : 'Ulaşılamadı',
-    'TEKLIF_BEKLIYOR': 'Teklif Bekliyor',
-    'OLUMLU'         : 'Olumlu',
-    'OLUMSUZ'        : 'Olumsuz',
-  };
-  return `<span class="badge badge-status-${cls}">${labels[s] || s}</span>`;
-}
-
 function esc(str) {
   return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function formatDate(isoStr) {
-  if (!isoStr) return '—';
-  try {
-    const d = new Date(isoStr);
-    return d.toLocaleDateString('tr-TR', { day:'2-digit', month:'short', year:'numeric' });
-  } catch { return isoStr; }
+function isToday(dateString) {
+  if (!dateString) return false;
+  const datePart = dateString.substring(0, 10);
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const todayStr = `${year}-${month}-${day}`;
+  return datePart === todayStr;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return "";
+  const parts = dateStr.split(" ");
+  if (parts.length >= 1) {
+    const dateParts = parts[0].split("-");
+    if (dateParts.length === 3) {
+      const formattedDate = `${dateParts[2]}.${dateParts[1]}.${dateParts[0]}`;
+      if (parts.length > 1) {
+        const timeParts = parts[1].split(":");
+        return `${formattedDate} ${timeParts[0]}:${timeParts[1]}`;
+      }
+      return formattedDate;
+    }
+  }
+  return dateStr;
 }
 
 /* ─── Stats ──────────────────────────────────────────── */
@@ -88,19 +79,29 @@ function updateStats() {
 
 /* ─── Table rendering ────────────────────────────────── */
 function applyFilters() {
-  const query  = (el('lead-search').value || '').toLowerCase();
+  const query  = (el('lead-search').value || '').toLowerCase().trim();
   const design = el('filter-design').value;
   const status = el('filter-status').value;
 
   filteredLeads = allLeads.filter(l => {
-    const matchQuery = !query || [
-      l.domain, l.company_name, l.phone, l.email, l.address, l.authorized_person
+    const matchesSearch = !query || [
+      l.domain, l.company_name, l.phone, l.email, l.address, l.authorized_person,
+      (Array.isArray(l.tags) ? l.tags.join(', ') : (l.tags || ''))
     ].some(v => (v || '').toLowerCase().includes(query));
 
-    const matchDesign = design === 'ALL' || (l.design_status || '').toUpperCase() === design;
-    const matchStatus = status === 'ALL' || (l.crm_status || 'YENI').toUpperCase() === status;
+    let matchesDesign = true;
+    if (design === "BAKIR") {
+      matchesDesign = (l.design_status || '').toUpperCase().includes("BAKIR");
+    } else if (design === "AKTIF") {
+      matchesDesign = (l.design_status || '').toUpperCase().includes("AKTIF");
+    }
 
-    return matchQuery && matchDesign && matchStatus;
+    let matchesStatus = true;
+    if (status !== "ALL") {
+      matchesStatus = (l.crm_status || 'YENI').toUpperCase() === status;
+    }
+
+    return matchesSearch && matchesDesign && matchesStatus;
   });
 
   currentPage = 1;
@@ -109,63 +110,138 @@ function applyFilters() {
 
 function renderTable() {
   const tbody = el('leads-table-body');
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const page  = filteredLeads.slice(start, start + PAGE_SIZE);
-  const totalPages = Math.max(1, Math.ceil(filteredLeads.length / PAGE_SIZE));
-
   if (filteredLeads.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" class="table-empty"><i class="fa-solid fa-magnifying-glass"></i><br>Sonuç bulunamadı</td></tr>';
-    el('table-info-text').textContent = '0 sonuç';
+    tbody.innerHTML = '<tr><td colspan="7" class="table-empty"><i class="fa-solid fa-folder-open"></i> Eşleşen kayıt bulunamadı.</td></tr>';
+    el('table-info-text').textContent = 'Gösterilen kayıt: 0 / 0';
     el('pagination-controls').innerHTML = '';
     return;
   }
 
-  tbody.innerHTML = page.map((lead, i) => {
-    const hasPhone = lead.phone && lead.phone.trim();
-    const hasEmail = lead.email && lead.email.trim();
-    const idx      = allLeads.indexOf(lead);
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end   = Math.min(start + PAGE_SIZE, filteredLeads.length);
+  const page  = filteredLeads.slice(start, end);
+  const totalPages = Math.max(1, Math.ceil(filteredLeads.length / PAGE_SIZE));
+
+  tbody.innerHTML = page.map(lead => {
+    const idx = allLeads.indexOf(lead);
+    
+    // Design Status Badge
+    let designClass = "badge-design-unknown";
+    let designText = "Belirsiz";
+    if ((lead.design_status || '').toUpperCase().includes("BAKIR")) {
+      designClass = "badge-design-bakir";
+      designText = "BAKIR (Boş)";
+    } else if ((lead.design_status || '').toUpperCase().includes("AKTIF")) {
+      designClass = "badge-design-aktif";
+      designText = "AKTİF";
+    }
+
+    // Status Badge Class
+    let statusClass = "badge-status-yeni";
+    let statusText = "Yeni";
+    switch (lead.crm_status) {
+      case "ARANACAK":
+        statusClass = "badge-status-aranacak";
+        statusText = "Aranacak";
+        break;
+      case "ULASILAMADI":
+        statusClass = "badge-status-ulasilamadi";
+        statusText = "Ulaşılamadı";
+        break;
+      case "TEKLIF_BEKLIYOR":
+        statusClass = "badge-status-teklif";
+        statusText = "Teklif";
+        break;
+      case "OLUMLU":
+        statusClass = "badge-status-olumlu";
+        statusText = "Olumlu";
+        break;
+      case "OLUMSUZ":
+        statusClass = "badge-status-olumsuz";
+        statusText = "Olumsuz";
+        break;
+    }
+
+    // Generate contacts info summary
+    let contactPills = "";
+    if (lead.phone) {
+      const phonesCount = lead.phone.split(",").length;
+      contactPills += `<span class="contact-pill active" title="${esc(lead.phone)}"><i class="fa-solid fa-phone"></i> ${phonesCount} adet</span>`;
+    }
+    if (lead.email) {
+      const emailsCount = lead.email.split(",").length;
+      contactPills += `<span class="contact-pill active" title="${esc(lead.email)}"><i class="fa-solid fa-envelope"></i> ${emailsCount} adet</span>`;
+    }
+    if (!contactPills) {
+      contactPills = `<span class="contact-pill"><i class="fa-solid fa-circle-minus"></i> Bulunamadı</span>`;
+    }
+
+    let todayBadge = "";
+    if (isToday(lead.scraped_at)) {
+      todayBadge = `<span class="badge-today-pulse">BUGÜN</span>`;
+    }
+
+    let tagBadges = "";
+    if (Array.isArray(lead.tags)) {
+      lead.tags.forEach(t => {
+        const cleanedTag = t.trim();
+        if (cleanedTag) {
+          tagBadges += `<span class="badge-tag">${esc(cleanedTag)}</span>`;
+        }
+      });
+    } else if (lead.tags) {
+      lead.tags.split(",").forEach(t => {
+        const cleanedTag = t.trim();
+        if (cleanedTag) {
+          tagBadges += `<span class="badge-tag">${esc(cleanedTag)}</span>`;
+        }
+      });
+    }
+
+    const formattedDate = formatDate(lead.scraped_at);
 
     return `
-    <tr onclick="openDrawer(${idx})">
-      <td>
-        <div class="domain-cell">
-          <span>${esc(lead.domain)}</span>
-          <a href="${esc(lead.url || 'https://' + lead.domain)}" target="_blank" onclick="event.stopPropagation()" title="Siteyi aç">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-          </a>
-        </div>
-        <div style="font-size:11px;color:var(--color-text-muted);margin-top:2px;">${esc(lead.company_name || '—')}</div>
-      </td>
-      <td>
-        <div style="font-weight:600;font-size:13px;">${esc(lead.company_name || '—')}</div>
-        <div style="font-size:11px;color:var(--color-text-muted);margin-top:2px;">${esc(lead.authorized_person || '—')}</div>
-      </td>
-      <td>${designBadge(lead.design_status)}</td>
-      <td>${statusBadge(lead.crm_status)}</td>
-      <td>
-        <div class="contacts-summary">
-          <span class="contact-pill ${hasPhone ? 'active' : ''}">
-            <i class="fa-solid fa-phone"></i> ${hasPhone ? esc(lead.phone) : 'Yok'}
-          </span>
-          <span class="contact-pill ${hasEmail ? 'active' : ''}">
-            <i class="fa-solid fa-envelope"></i> ${hasEmail ? esc(lead.email) : 'Yok'}
-          </span>
-        </div>
-      </td>
-      <td>
-        <button class="btn-action-edit" title="Detayı aç" onclick="event.stopPropagation(); openDrawer(${idx})">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-      </td>
-    </tr>`;
+      <tr onclick="openDrawer(${idx})">
+        <td>
+          <div class="domain-cell-container">
+            <div class="domain-cell-top">
+              <span class="domain-name" title="${esc(lead.domain)}">${esc(lead.domain)}</span>
+              ${todayBadge}
+              ${tagBadges}
+            </div>
+            <div class="domain-actions">
+              <a href="https://${esc(lead.domain)}" target="_blank" onclick="event.stopPropagation();" class="domain-action-btn" title="Ana Sayfayı Aç">
+                <i class="fa-solid fa-globe"></i> Ana Sayfa
+              </a>
+              <a href="https://${esc(lead.domain)}/iletisim" target="_blank" onclick="event.stopPropagation();" class="domain-action-btn contact-btn" title="İletişim Sayfasını Aç">
+                <i class="fa-solid fa-address-book"></i> İletişim
+              </a>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div>${esc(lead.company_name || 'Bilinmiyor')}</div>
+          ${lead.authorized_person ? `<small style="color:var(--color-text-muted); font-size:11px; display:inline-flex; align-items:center; gap:4px; margin-top:2px;"><i class="fa-solid fa-user-tie"></i> ${esc(lead.authorized_person)}</small>` : ''}
+        </td>
+        <td>
+          <div class="date-cell" style="font-size: 13px; color: var(--color-text-secondary);">${esc(formattedDate)}</div>
+        </td>
+        <td><span class="badge ${designClass}">${designText}</span></td>
+        <td><span class="badge ${statusClass}">${statusText}</span></td>
+        <td><div class="contacts-summary">${contactPills}</div></td>
+        <td>
+          <button class="btn-action-edit" title="Detayları Görüntüle / Düzenle" onclick="event.stopPropagation(); openDrawer(${idx})">
+            <i class="fa-solid fa-pen-to-square"></i> Detay
+          </button>
+        </td>
+      </tr>`;
   }).join('');
 
-  // Footer info
-  const from = start + 1;
-  const to   = Math.min(start + PAGE_SIZE, filteredLeads.length);
-  el('table-info-text').textContent = `${from}–${to} / ${filteredLeads.length} sonuç gösteriliyor`;
+  el('table-info-text').textContent = `Gösterilen kayıt: ${start + 1} - ${end} / ${filteredLeads.length}`;
+  renderPagination(totalPages);
+}
 
-  // Pagination
+function renderPagination(totalPages) {
   const pagCtrl = el('pagination-controls');
   let pagHTML = `<button class="btn-page" onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
     <i class="fa-solid fa-chevron-left"></i>
@@ -202,13 +278,20 @@ async function loadLeads() {
     const data = await res.json();
     allLeads = Array.isArray(data) ? data : Object.values(data);
 
+    // Normalize status fields
+    allLeads.forEach(l => {
+      if (!l.crm_status && l.call_status) {
+        l.crm_status = l.call_status;
+      }
+    });
+
     const now = new Date().toLocaleTimeString('tr-TR');
     el('last-updated-badge').textContent = `Son yükleme: ${now}`;
 
     updateStats();
     applyFilters();
   } catch (err) {
-    el('leads-table-body').innerHTML = `<tr><td colspan="6" class="table-empty">
+    el('leads-table-body').innerHTML = `<tr><td colspan="7" class="table-empty">
       <i class="fa-solid fa-circle-exclamation" style="color:#f87171;"></i><br>
       <strong>leads.json yüklenemedi.</strong><br>
       <small style="color:var(--color-text-muted);">${err.message}</small>
@@ -221,6 +304,8 @@ async function loadLeads() {
 function openDrawer(idx) {
   const lead = allLeads[idx];
   if (!lead) return;
+
+  const tagList = Array.isArray(lead.tags) ? lead.tags.join(', ') : (lead.tags || '');
 
   const content = `
     <div class="detail-sec">
@@ -261,7 +346,10 @@ function openDrawer(idx) {
 
     <div class="detail-sec">
       <div class="detail-label">Tasarım Durumu</div>
-      ${designBadge(lead.design_status)}
+      <select class="form-select" id="drawer-design-status" onchange="handleDesignStatusChange(${idx}, this.value)">
+        <option value="BAKIR" ${(lead.design_status||'').toUpperCase().includes('BAKIR')?'selected':''}>BAKIR (Boş Mağaza)</option>
+        <option value="AKTIF" ${(lead.design_status||'').toUpperCase().includes('AKTIF')?'selected':''}>AKTİF (Tasarımı Var)</option>
+      </select>
     </div>
 
     <div class="detail-sec">
@@ -277,6 +365,11 @@ function openDrawer(idx) {
     </div>
 
     <div class="detail-sec">
+      <div class="detail-label">Etiketler</div>
+      <div style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color);">${esc(tagList || '—')}</div>
+    </div>
+
+    <div class="detail-sec">
       <div class="detail-label">Notlar</div>
       <textarea class="form-textarea" id="drawer-notes" placeholder="Bu firma hakkında notlar..."
         oninput="handleNotesChange(${idx}, this.value)">${esc(lead.notes || '')}</textarea>
@@ -287,7 +380,7 @@ function openDrawer(idx) {
     </div>
 
     <div class="detail-sec" style="font-size:11px;color:var(--color-text-muted);">
-      <div>Keşfedilme: ${formatDate(lead.discovered_at)}</div>
+      <div>Keşfedilme: ${formatDate(lead.scraped_at)}</div>
       <div>Son güncelleme: ${formatDate(lead.updated_at)}</div>
     </div>
   `;
@@ -305,6 +398,15 @@ function closeDrawer() {
 /* ─── CRM Edits ──────────────────────────────────────── */
 function handleStatusChange(idx, value) {
   allLeads[idx].crm_status = value;
+  allLeads[idx].call_status = value; // keep both synced
+  allLeads[idx].updated_at = new Date().toISOString();
+  scheduleSave(idx);
+  updateStats();
+  renderTable();
+}
+
+function handleDesignStatusChange(idx, value) {
+  allLeads[idx].design_status = value;
   allLeads[idx].updated_at = new Date().toISOString();
   scheduleSave(idx);
   updateStats();
@@ -353,10 +455,10 @@ async function commitToGitHub() {
   if (!owner || !repo || !token) {
     const saveStatus = el('drawer-save-status');
     if (saveStatus) {
-      saveStatus.textContent = '⚠ GitHub ayarları eksik';
+      saveStatus.textContent = '⚠ GitHub Token eksik (Konsoldan openSettings() çalıştırın)';
       saveStatus.className = 'save-status visible status-error';
     }
-    el('global-save-indicator').textContent = '⚠ Ayarlar eksik — yerel değişiklikler kaydedilmedi';
+    el('global-save-indicator').textContent = '⚠ Token eksik — yerel değişiklikler kaydedilmedi';
     return;
   }
 
@@ -409,8 +511,7 @@ async function commitToGitHub() {
       saveStatus.className = 'save-status visible status-error';
     }
     el('global-save-indicator').textContent = `✗ Kayıt hatası: ${err.message}`;
-    // Reset SHA so it's re-fetched on next attempt (might be a conflict)
-    fileSha = null;
+    fileSha = null; // reset SHA on error to re-fetch
   }
 }
 
@@ -443,7 +544,6 @@ function saveSettings() {
   localStorage.setItem('gh_repo',  repo);
   localStorage.setItem('gh_token', token);
 
-  // Reset SHA so we re-fetch with new credentials
   fileSha = null;
 
   el('settings-status').textContent = '✓ Kaydedildi!';
@@ -465,6 +565,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close settings on overlay click
   el('settings-overlay').addEventListener('click', (e) => {
     if (e.target === el('settings-overlay')) closeSettings();
+  });
+
+  // Mobile Sidebar Toggles
+  const btnToggleSidebar = el("btn-toggle-sidebar");
+  const btnCloseSidebar = el("btn-close-sidebar");
+  const appSidebar = el("app-sidebar");
+
+  if (btnToggleSidebar && appSidebar) {
+    btnToggleSidebar.addEventListener("click", () => {
+      appSidebar.classList.add("open");
+    });
+  }
+
+  if (btnCloseSidebar && appSidebar) {
+    btnCloseSidebar.addEventListener("click", () => {
+      appSidebar.classList.remove("open");
+    });
+  }
+
+  document.querySelectorAll(".sidebar-menu .menu-item").forEach(item => {
+    item.addEventListener("click", () => {
+      if (appSidebar) {
+        appSidebar.classList.remove("open");
+      }
+    });
   });
 
   // Show token prompt if not configured
