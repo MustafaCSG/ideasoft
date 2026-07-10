@@ -942,6 +942,9 @@ select option {
         padding-bottom: 16px;
     }
     
+    .navbar-actions {
+        width: 100%;
+    }
     .navbar-actions .btn {
         width: 100%;
         justify-content: center;
@@ -969,6 +972,112 @@ select option {
     
     .filter-item select {
         width: 60%;
+    }
+    
+    /* Responsive Table-to-Cards Layout */
+    .leads-table thead {
+        display: none;
+    }
+    .leads-table, .leads-table tbody, .leads-table tr, .leads-table td {
+        display: block;
+        width: 100% !important;
+    }
+    .leads-table tr {
+        margin-bottom: 16px;
+        background-color: rgba(255, 255, 255, 0.01);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 16px;
+        position: relative;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .leads-table td {
+        padding: 8px 0;
+        border-bottom: none;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+    
+    /* Domain Name and Badges layout */
+    .leads-table td:nth-child(1) {
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 12px;
+        margin-bottom: 8px;
+    }
+    
+    /* Company info layout */
+    .leads-table td:nth-child(2) {
+        font-size: 15px;
+    }
+    
+    /* Record date info layout */
+    .leads-table td:nth-child(3) {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--color-text-muted);
+    }
+    .leads-table td:nth-child(3)::before {
+        content: "Kayıt Tarihi: ";
+        font-weight: 500;
+        color: var(--color-text-muted);
+    }
+    
+    /* Flex container for Badges and Contacts */
+    .leads-table td:nth-child(4),
+    .leads-table td:nth-child(5),
+    .leads-table td:nth-child(6) {
+        display: inline-flex;
+        margin-right: 12px;
+        vertical-align: middle;
+    }
+    
+    /* Detail Edit Button */
+    .leads-table td:nth-child(7) {
+        margin-top: 12px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 12px;
+    }
+    .leads-table td:nth-child(7) .btn-action-edit {
+        width: 100%;
+        background-color: rgba(124, 58, 237, 0.1);
+        border: 1px solid rgba(124, 58, 237, 0.3);
+        color: var(--primary-hover);
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+    .leads-table td:nth-child(7) .btn-action-edit:hover {
+        background-color: var(--primary);
+        color: #fff;
+        box-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+    }
+    
+    /* Fix buttons and actions overflow on small screens */
+    .domain-cell-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    .domain-cell-top {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .domain-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .domain-action-btn {
+        justify-content: center;
     }
     
     .table-footer {
