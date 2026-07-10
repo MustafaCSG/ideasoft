@@ -18,11 +18,11 @@ const PAGE_SIZE = 50;
 let saveTimer   = null;
 let fileSha     = null;  // GitHub blob SHA, needed for updates
 
-/* ─── GitHub Config (from localStorage) ─────────────── */
+/* ─── GitHub Config (Locked to MustafaCSG/ideasoft) ─── */
 function getGHConfig() {
   return {
-    owner : localStorage.getItem('gh_owner') || '',
-    repo  : localStorage.getItem('gh_repo')  || '',
+    owner : 'MustafaCSG',
+    repo  : 'ideasoft',
     token : localStorage.getItem('gh_token') || '',
   };
 }
@@ -467,10 +467,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === el('settings-overlay')) closeSettings();
   });
 
-  // Show settings prompt if not configured
-  const { owner, repo, token } = getGHConfig();
-  if (!owner || !repo || !token) {
-    el('global-save-indicator').textContent = '⚠ GitHub ayarlarını girin (sol menü → Ayarlar)';
+  // Show token prompt if not configured
+  const { token } = getGHConfig();
+  if (!token) {
+    el('global-save-indicator').textContent = '⚠ GitHub Token eksik (Konsoldan openSettings() çalıştırın)';
     el('global-save-indicator').style.color = 'var(--status-teklif-color)';
   }
 });
