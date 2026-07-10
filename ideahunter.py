@@ -176,6 +176,7 @@ def save_lead(domain, company_name, authorized_person, phone, email, address, ur
             l["address"] = address
             l["url"] = url
             l["call_status"] = call_status
+            l["crm_status"] = call_status
             l["notes"] = notes
             l["design_status"] = design_status
             l["tags"] = final_tags
@@ -193,6 +194,7 @@ def save_lead(domain, company_name, authorized_person, phone, email, address, ur
             "address": address,
             "url": url,
             "call_status": "YENI",
+            "crm_status": "YENI",
             "notes": "",
             "design_status": design_status,
             "tags": final_tags,
