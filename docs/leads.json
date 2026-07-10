@@ -9423,5 +9423,33 @@
     "tags": [
       "kayseri"
     ]
+  },
+  {
+    "domain": "bulmark.com.tr",
+    "company_name": "Bulmark",
+    "authorized_person": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "url": "https://bulmark.com.tr",
+    "call_status": "YENI",
+    "notes": "",
+    "design_status": "BAKIR / YAPIM ASAMASINDA",
+    "tags": "",
+    "scraped_at": "2026-07-10 07:56:56"
+  },
+  {
+    "domain": "nlkozmetik.com.tr",
+    "company_name": "Nlkozmetik",
+    "authorized_person": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "url": "https://nlkozmetik.com.tr",
+    "call_status": "YENI",
+    "notes": "",
+    "design_status": "BAKIR / YAPIM ASAMASINDA",
+    "tags": "",
+    "scraped_at": "2026-07-10 07:56:56"
   }
 ]
