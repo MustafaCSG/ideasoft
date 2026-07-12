@@ -15909,5 +15909,20 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "",
     "scraped_at": "2026-07-11 05:50:58"
+  },
+  {
+    "domain": "ufukmedikal.com.tr",
+    "company_name": "Ufukmedikal",
+    "authorized_person": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "url": "https://ufukmedikal.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "BAKIR / YAPIM ASAMASINDA",
+    "tags": "",
+    "scraped_at": "2026-07-12 05:54:01"
   }
 ]
