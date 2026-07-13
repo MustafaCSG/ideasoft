@@ -15924,5 +15924,35 @@
     "design_status": "BAKIR / YAPIM ASAMASINDA",
     "tags": "",
     "scraped_at": "2026-07-12 05:54:01"
+  },
+  {
+    "domain": "catpower.com.tr",
+    "company_name": "Elektrikli Akülü Şarjlı El Aletleri",
+    "authorized_person": "Servis Listesi",
+    "phone": "02165265780, 04352999999, 03960212660, 04423645964, 02165265787",
+    "email": "info@catpower.com.tr",
+    "address": "tr Adres Nato Yolu Caddesi No:178 Ümraniye - İSTANBUL Pzt - Cum: 08",
+    "url": "https://catpower.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-07-13 06:04:20"
+  },
+  {
+    "domain": "gardropgiyim.com.tr",
+    "company_name": "Gardropgiyim",
+    "authorized_person": "ALİ DENİZ",
+    "phone": "01234567890, 05058353514, 01449999999, 05334504911, 03891810771, 04761000000, 05608999999",
+    "email": "abiyecimtr@hotmail.com",
+    "address": "134005 NOLU SOK. NO:7/A GTA TOWERS ALTI",
+    "url": "https://gardropgiyim.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-07-13 06:04:20"
   }
 ]
