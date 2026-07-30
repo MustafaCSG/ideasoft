@@ -15984,5 +15984,35 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "",
     "scraped_at": "2026-07-21 05:46:07"
+  },
+  {
+    "domain": "sefabella.com.tr",
+    "company_name": "SEFABELLA",
+    "authorized_person": "Firma Yetkilisi",
+    "phone": "07580028055, 05533700611, 05211928594, 03926999999, 02125504634",
+    "email": "sefabella@sefabella.com.tr",
+    "address": "tr Adres FABRİKA : 15 Temmuz Mahallesi Halkalı Caddesi No",
+    "url": "https://sefabella.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-07-30 05:29:55"
+  },
+  {
+    "domain": "tarmex.com.tr",
+    "company_name": "Tarmex",
+    "authorized_person": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "url": "https://tarmex.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-07-30 05:29:57"
   }
 ]
