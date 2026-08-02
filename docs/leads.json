@@ -16929,5 +16929,50 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "",
     "scraped_at": "2026-08-01 05:52:10"
+  },
+  {
+    "domain": "poza.com.tr",
+    "company_name": "Poza",
+    "authorized_person": "HAKAN YILMAZ",
+    "phone": "05048809318, 05323349742",
+    "email": "bilgi@poza.com.tr, vipavukat@hotmail.com",
+    "address": "",
+    "url": "https://poza.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-08-02 05:55:52"
+  },
+  {
+    "domain": "kursoft.myideasoft.com",
+    "company_name": "Kursoft",
+    "authorized_person": "Firma Yetkilisi",
+    "phone": "02518000000, 04703000000, 01234567890, 05523020983",
+    "email": "info@kursoft.com",
+    "address": "",
+    "url": "https://kursoft.myideasoft.com",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "kayseri",
+    "scraped_at": "2026-08-02 05:59:32"
+  },
+  {
+    "domain": "hursoft.net",
+    "company_name": "Hursoft Güvenlik",
+    "authorized_person": "",
+    "phone": "08830000000, 03124411420, 04305000000, 05327952229",
+    "email": "info@hursoft.net, satis@hursoft.net",
+    "address": "Cad. Maidan Plaza Iş Merkezi 4 C Blok No: 140 Çankaya/Ankara +90 312 441 14 20 +90 532 795 22 29",
+    "url": "https://hursoft.net",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "kayseri",
+    "scraped_at": "2026-08-02 05:59:34"
   }
 ]
