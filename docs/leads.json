@@ -16974,5 +16974,20 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "kayseri",
     "scraped_at": "2026-08-02 05:59:34"
+  },
+  {
+    "domain": "noist.com.tr",
+    "company_name": "Noist",
+    "authorized_person": "",
+    "phone": "02166136261, 03143999999, 04913999999, 06560000000, 05323901574",
+    "email": "noist@noist.com.tr",
+    "address": "Yıldırım Beyazıt Cad. No:88 Pendik - İSTANBUL",
+    "url": "https://noist.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "kayseri",
+    "scraped_at": "2026-08-03 06:12:37"
   }
 ]
