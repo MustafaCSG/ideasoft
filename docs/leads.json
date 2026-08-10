@@ -17514,5 +17514,20 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "kayseri",
     "scraped_at": "2026-08-09 04:11:27"
+  },
+  {
+    "domain": "ejdershop.com.tr",
+    "company_name": "Ejdershop",
+    "authorized_person": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "url": "https://ejdershop.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-08-10 04:16:49"
   }
 ]
