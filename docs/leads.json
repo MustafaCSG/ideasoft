@@ -20244,5 +20244,35 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "",
     "scraped_at": "2026-08-27 13:03:59"
+  },
+  {
+    "domain": "gurbetcimobilya.com.tr",
+    "company_name": "Gurbetcimobilya",
+    "authorized_person": "Firma Yetkilisi Adres Firma",
+    "phone": "02785919664, 05490999999, 08529999999, 05455863538",
+    "email": "info@gurbetcimobilya.com.tr",
+    "address": "",
+    "url": "https://gurbetcimobilya.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-08-28 14:33:39"
+  },
+  {
+    "domain": "gardenza.com.tr",
+    "company_name": "Gardenza",
+    "authorized_person": "",
+    "phone": "01234567890, 05074341907, 04682000000, 03522322030",
+    "email": "destek@gardenza.com.tr, satis@gardenza.com.tr, info@gardenza.com.tr",
+    "address": "",
+    "url": "https://gardenza.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "kayseri",
+    "scraped_at": "2026-08-28 14:37:36"
   }
 ]
