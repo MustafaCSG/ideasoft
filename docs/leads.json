@@ -20769,5 +20769,35 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "",
     "scraped_at": "2026-08-29 09:17:31"
+  },
+  {
+    "domain": "gds.com.tr",
+    "company_name": "Gds",
+    "authorized_person": "",
+    "phone": "08499476841, 02125651022, 05986999999, 04318221727, 02026082510",
+    "email": "info@gds.com.tr",
+    "address": "",
+    "url": "https://gds.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-08-30 08:26:15"
+  },
+  {
+    "domain": "atakmarket.com",
+    "company_name": "Atakmarket",
+    "authorized_person": "Firma Yetkilisi",
+    "phone": "05490999999, 09403031090, 05571113718, 08503770100, 05395178587, 08529999999, 05118515734",
+    "email": "eticaret@atakelektrik.com, atakelektrik@hs01.kep.tr",
+    "address": "No:70 Yunusemre/MANİSA Şube: Halkapınar Mahallesi 1082 Sokak No: 7/N Pamuk Plaza B Blok Konak/İZMİR 0 850 377 0 100 / 0 539 517 85 87",
+    "url": "https://atakmarket.com",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "kayseri",
+    "scraped_at": "2026-08-30 08:30:23"
   }
 ]
