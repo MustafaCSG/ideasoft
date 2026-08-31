@@ -20799,5 +20799,35 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "kayseri",
     "scraped_at": "2026-08-30 08:30:23"
+  },
+  {
+    "domain": "bellona.myideasoft.com",
+    "company_name": "Bellona Mobilya | Ayrıcalıklı Yaşam Alanları",
+    "authorized_person": "",
+    "phone": "08502223399",
+    "email": "",
+    "address": "",
+    "url": "https://bellona.myideasoft.com",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "kayseri",
+    "scraped_at": "2026-08-31 08:50:35"
+  },
+  {
+    "domain": "pbsnotebook.com",
+    "company_name": "Pbsnotebook",
+    "authorized_person": "Firma Yetkilisi",
+    "phone": "04171000000, 05192869612, 05531117903",
+    "email": "satis@pbsnotebook.com, pasabilgi@hs01.kep.tr",
+    "address": "KİRAZLI MAH ZÜBEYDE HANIM CADDESİ 1189 SOK NO:10",
+    "url": "https://pbsnotebook.com",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "kayseri",
+    "scraped_at": "2026-08-31 08:50:35"
   }
 ]
