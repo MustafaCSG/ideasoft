@@ -20964,5 +20964,20 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "kayseri",
     "scraped_at": "2026-09-02 07:20:31"
+  },
+  {
+    "domain": "deni.com.tr",
+    "company_name": "Deni",
+    "authorized_person": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "url": "https://deni.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-09-08 07:24:13"
   }
 ]
