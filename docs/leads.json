@@ -21159,5 +21159,50 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "",
     "scraped_at": "2026-09-29 08:34:13"
+  },
+  {
+    "domain": "yessmuzik.com.tr",
+    "company_name": "Yessmuzik",
+    "authorized_person": "BÜNYAMİN ARDIÇ",
+    "phone": "03122155555, 03124172583, 03479999999, 05435391259, 09500316810, 03962999999",
+    "email": "info@yessmuzik.com.tr, yessmuzik@hs01.kep.tr",
+    "address": "tr Adres Kocatepe Mahallesi Hatay Sokak NO:9/B Kızılay/ANKARA",
+    "url": "https://yessmuzik.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-10-02 08:32:58"
+  },
+  {
+    "domain": "ideasoftbursa.com",
+    "company_name": "Ideasoftbursa",
+    "authorized_person": "",
+    "phone": "05324728469, 08986000000, 02355956863",
+    "email": "info@ideasoftbursa.com",
+    "address": "",
+    "url": "https://ideasoftbursa.com",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "kayseri",
+    "scraped_at": "2026-10-02 08:36:24"
+  },
+  {
+    "domain": "herkesemobilya.myideasoft.com",
+    "company_name": "Herkese Mobilya",
+    "authorized_person": "Ali Osman Yaren",
+    "phone": "02025080812, 02013289612, 02025080119, 05580505598, 03479999999, 02014617144, 02025090212, 04560157600, 02126370461, 03962999999, 02015351244, 08262589412, 02126370460, 02025080118, 02025073114, 02025090215, 05330780198, 02012228173, 02014261740, 02025090217, 02014617142",
+    "email": "hamleofismobilyalari@hs06.kep.tr, info@herkesemobilya.com",
+    "address": "Muştu Sok. No:40-42/A Bahçelievler, İstanbul",
+    "url": "https://herkesemobilya.myideasoft.com",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "kayseri",
+    "scraped_at": "2026-10-02 08:36:24"
   }
 ]
