@@ -21204,5 +21204,35 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "kayseri",
     "scraped_at": "2026-10-02 08:36:24"
+  },
+  {
+    "domain": "karakoyelektronik.com",
+    "company_name": "Karaköy Elektronik | Online Elektronik Komponent Satışı",
+    "authorized_person": "",
+    "phone": "02890004034, 08503335759, 04094293621",
+    "email": "karakoy@karakoyelektronik.com, karakoyelektronik@hs01.kep.tr",
+    "address": "Poyraz Sok. Söğütlüçeşme İş Merkezi No:1/28, Kadıköy / İstanbul (TR) 0850 333 57 59 0850 333 57 59",
+    "url": "https://karakoyelektronik.com",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-10-03 08:12:32"
+  },
+  {
+    "domain": "metalgiyim.com",
+    "company_name": "Metalgiyim.com",
+    "authorized_person": "Ahmet Emre Köseahmetoğlu",
+    "phone": "05090641126, 05880066473, 08503020404, 03000620003, 02165507802, 05819999999",
+    "email": "info@metalgiyim.com, ahmetemre.koseahmetoglu@hs01.kep.tr",
+    "address": "Sakızgülü sok. no:2-a Kadıköy/İstanbul Pazaryeri Satışlarınız da var mı",
+    "url": "https://metalgiyim.com",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-10-03 08:12:32"
   }
 ]
