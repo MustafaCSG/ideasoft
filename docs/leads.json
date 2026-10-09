@@ -21324,5 +21324,20 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "kayseri",
     "scraped_at": "2026-10-07 08:47:10"
+  },
+  {
+    "domain": "aycanticaret.com.tr",
+    "company_name": "Aycanticaret",
+    "authorized_person": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "url": "https://aycanticaret.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-10-09 09:07:38"
   }
 ]
