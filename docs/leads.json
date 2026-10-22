@@ -21444,5 +21444,20 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "",
     "scraped_at": "2026-10-17 07:06:07"
+  },
+  {
+    "domain": "seldur.com.tr",
+    "company_name": "Seldur",
+    "authorized_person": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "url": "https://seldur.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-10-22 07:39:27"
   }
 ]
