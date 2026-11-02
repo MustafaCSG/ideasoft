@@ -21489,5 +21489,20 @@
     "design_status": "AKTIF / TASARLANMIS",
     "tags": "",
     "scraped_at": "2026-10-28 08:27:28"
+  },
+  {
+    "domain": "eidco.com.tr",
+    "company_name": "Eidco",
+    "authorized_person": "kübra bayram",
+    "phone": "05878000000, 05309367847, 05335467776",
+    "email": "eidcotr@hotmail.com",
+    "address": "rüştü sarp caddesi metro deep plaza no:29/1",
+    "url": "https://eidco.com.tr",
+    "call_status": "YENI",
+    "crm_status": "YENI",
+    "notes": "",
+    "design_status": "AKTIF / TASARLANMIS",
+    "tags": "",
+    "scraped_at": "2026-11-02 09:29:37"
   }
 ]
